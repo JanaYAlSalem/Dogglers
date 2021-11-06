@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@id/nameOfdog" />
 
         <TextView
-            android:id="@+id/hobbies"
+            android:id="@+id/hobbiesOfdog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

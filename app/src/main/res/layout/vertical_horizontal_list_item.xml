@@ -54,7 +54,7 @@
             tools:text="@string/dog_age" />
 
         <TextView
-            android:id="@+id/hobbies"
+            android:id="@+id/hobbiesOfdog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

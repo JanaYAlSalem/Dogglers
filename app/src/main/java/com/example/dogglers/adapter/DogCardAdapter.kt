@@ -27,58 +27,62 @@ import com.example.dogglers.R.layout.vertical_horizontal_list_item
 import com.example.dogglers.const.Layout
 import com.example.dogglers.data.DataSource
 
-/**
- * Adapter to inflate the appropriate list item layout and populate the view with information
- * from the appropriate data source
- */
-class DogCardAdapter(
-    private val context: Context?,
-    private val layout: Int
-): RecyclerView.Adapter<DogCardAdapter.DogCardViewHolder>() {
-    val dogInfo = DataSource.dogs
-    // TODO: Initialize the data using the List found in data/DataSource
 
-    /**
-     * Initialize view elements
-     */
+class DogCardAdapter(private val context: Context?,
+                     private val layout: Int): RecyclerView.Adapter<DogCardAdapter.DogCardViewHolder>() {
+
+    //Initialize the data using the List found in data/DataSource
+    val dataset = DataSource.dogs
+
+
     class DogCardViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val textViewName: TextView = view.findViewById(R.id.nameOfdog)
-        val textViewAge: TextView = view.findViewById(R.id.ageOfdog)
-        val textViewHobbie: TextView = view.findViewById(R.id.hobbies)
-        val imageView: ImageView = view.findViewById(R.id.dog_image)
-
-        // TODO: Declare and initialize all of the list item UI components
+        // Initialize view elements
+        val imgView: ImageView = view.findViewById(R.id.dog_image) // place of img on list item
+        val textViewname: TextView = view.findViewById(R.id.nameOfdog) // place of text name on list item
+        val textViewage: TextView = view.findViewById(R.id.ageOfdog) // place of text age on list item
+        val textViewhobbies: TextView = view.findViewById(R.id.hobbiesOfdog) // place hobbies of text on list item
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DogCardViewHolder {
 
-        val adapterLayout = when(layout){
-            Layout.HORIZONTAL -> LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item,parent,false)
-            Layout.VERTICAL -> LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item,parent,false)
-            Layout.GRID -> LayoutInflater.from(parent.context).inflate(R.layout.grid_list_item,parent,false)
-            else -> LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item,parent,false)
+        // create a new view:ItemViewHolder and return it on ****
+        // view called a adapterLayout which is get from parent to list_item layout
+        val adapterLayoutGrid = LayoutInflater.from(parent.context).inflate(R.layout.grid_list_item,parent,false)
+        val adapterLayouthorizontal = LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item, parent, false)
+        val adapterLayoutvertical = LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item,parent,false)
+        val ElseNULL = LayoutInflater.from(parent.context).inflate(R.layout.vertical_horizontal_list_item,parent,false)
+
+        if (layout == Layout.GRID) {
+            return DogCardViewHolder(adapterLayoutGrid)
+        } else if (layout == Layout.HORIZONTAL) {
+            return DogCardViewHolder(adapterLayouthorizontal)
+        } else if (layout == Layout.VERTICAL) {
+            return DogCardViewHolder(adapterLayoutvertical)
+        } else
+            return DogCardViewHolder(ElseNULL)
         }
 
-        return DogCardViewHolder(adapterLayout)
-    }
 
-    override fun getItemCount(): Int = dogInfo.size
+    override fun getItemCount(): Int = dataset.size // dataset is initializes on ItemAdapter(constructor:type)
 
     override fun onBindViewHolder(holder: DogCardViewHolder, position: Int) {
-        val item = dogInfo[position]
-        holder.imageView.setImageResource(item.imageResourceId)
-        holder.textViewName.text = item.name
-        holder.textViewAge.text = "Age: ${item.age}"
+        // item is a af(the type of list) datatype
+        // the holder is will be show on the screen
+        val item = dataset[position]
 
-        // TODO: Get the data at the current position
-        // TODO: Set the image resource for the current dog
-        // TODO: Set the text for the current dog's name
-        // TODO: Set the text for the current dog's age
+        // imgView -> initializes on DogCardViewHolder class, imageResourceId is a constructor on Dog class
+        holder.imgView.setImageResource(item.imageResourceId)
+
+        // textViewname -> initializes on DogCardViewHolder class, name is a constructor on Dog class
+        // holder.textViewname.setText(resources?.getString(R.string.app_name,item.name))
+        holder.textViewname.text = item.name
+
+        // textViewage -> initializes on DogCardViewHolder class, age is a constructor on Dog class
+        holder.textViewage.text = "Age: ${item.age}"
+
+        // textViewhobbies -> initializes on DogCardViewHolder class, hobbies is a constructor on Dog class
         val resources = context?.resources
-        holder.textViewHobbie.text = resources?.getString(R.string.dog_hobbies, item.hobbies)
-        // TODO: Set the text for the current dog's hobbies by passing the hobbies to the
-        //  R.string.dog_hobbies string constant.
-        //  Passing an argument to the string resource looks like:
-        //  resources?.getString(R.string.dog_hobbies, dog.hobbies)
+        holder.textViewhobbies.text = resources?.getString(R.string.dog_hobbies, item.hobbies)
+
     }
 }
